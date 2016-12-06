@@ -29,6 +29,13 @@ div#divRight{
 	font-weight: bold;
 	font-size: 16px;
 }
+div#rightList{
+	height: 30px;
+	background-color: #80d4f6;
+	color: #fff;
+	line-height: 30px;
+	text-align: center;
+}
 
 div#divchat{
 	border: 0;
@@ -38,7 +45,7 @@ div#divchat{
 	border-radius: 5px;
 	position: relative;
 	height: 300px;
-	overflow: hidden;
+	overflow: auto;
 	font-size:16px;
 }
 
@@ -51,6 +58,9 @@ table#tbDlg{
 tr#trDlg,td#tdDlg{
 	font-size:16px;
 	background-color: #f0f0f0;
+}
+td#tdDlg{
+	text-align: center;
 }
 textarea{
 	font-family: inherit;

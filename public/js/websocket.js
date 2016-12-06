@@ -1,18 +1,49 @@
 var userName,socket,tbxUsername,tbxMsg,divChat;
 
-function window_onload(){
-	divChat=document.getElementById('divchat');
-	tbxUsername=document.getElementById('tbxUsername');
-	tbxMsg=document.getElementById('tbxMsg');
-	tbxUsername.focus();
-	tbxUsername.select();
-}
 function $(id){
 	return document.getElementById(id);
 }
 
+var EventUtil={
+	addHander:function (dom,type,fn){
+		if(dom.addEventListener){
+			dom.addEventListener(type,fn,false);
+		}else if(dom.attachEvent){
+			dom.attachEvent('on'+type,fn);
+		}else{
+			dom['on'+type]=fn;
+		}
+	},
+	getEvent:function(event){
+		return event ? event:window.event;
+	},
+};
+
+EventUtil.addHander(window,'load',window_onload);
+EventUtil.addHander(window,'unload',window_onunload);
+EventUtil.addHander($('btnLogin'),'click',btnLogin_onclick);
+EventUtil.addHander($('btnLogout'),'click',btnLogout_onclick);
+EventUtil.addHander($('btnSend'),'click',btnSend_onclick);
+EventUtil.addHander($('tbxMsg'),'keydown',btnSend_onkeydown);
+
+
+function btnSend_onkeydown(event){
+	event=EventUtil.getEvent(event);
+	if(event.keyCode==13){
+		btnSend_onclick();
+	}
+}
+function window_onload(){
+	divChat=$('divchat');
+	tbxUsername=$('tbxUsername');
+	tbxMsg=$('tbxMsg');
+	tbxUsername.focus();
+	tbxUsername.select();
+}
+
+
 function AddMsg(msg){
-	divchat.innerHTML+=msg+'<br>';
+	divChat.innerHTML+=msg+'<br>';
 	if(divChat.scrollHeight>divChat.clientHeight)
 		divChat.scrollTop=divChat.scrollHeight-divChat.clientHeight;
 }
@@ -30,12 +61,12 @@ function btnLogin_onclick(){
 			AddMsg('欢迎用户'+name+'进入聊天室。');
 		});
 		socket.on('sendClients',function(names){
-			var divRight=document.getElementById('divRight');
+			var divRight=$('divRight');
 			var str="";
 			names.forEach(function(name){
 				str+=name+"<br>";
 			});
-			divRight.innerHTML="用户列表<br>";
+			divRight.innerHTML="用户列表:<br>";
 			divRight.innerHTML+=str;
 		});
 		socket.on('chat',function(data){
@@ -71,7 +102,7 @@ function btnLogin_onclick(){
 
 function btnSend_onclick(){
 	var msg=tbxMsg.value;
-	console.log(msg)
+	// console.log(msg)
 	if(msg.length>0){
 		socket.emit('chat',{user:userName,msg:msg});
 		tbxMsg.value='';

@@ -17,3 +17,11 @@
   ``` bash
   npm install
   ```
+
+## Quick Start
+
+- Available through npm.
+
+  ``` bash
+  node server.js
+  ```

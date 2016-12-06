@@ -29,10 +29,12 @@ io.sockets.on('connection',function(socket){
 	});
 
 	socket.on('chat',function(data){
+		// console.log(data);
 		io.sockets.emit('chat',data);
 	});
 
 	socket.on('logout',function(name){
+		console.log(name)
 		for(var i=0;i<names.length;i++){
 			if(names[i]==name){
 				names.splice(i,1);
